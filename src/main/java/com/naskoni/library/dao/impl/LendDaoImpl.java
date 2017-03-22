@@ -1,5 +1,7 @@
 package com.naskoni.library.dao.impl;
 
+import static com.naskoni.library.constant.CommonConstants.ID;
+
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.naskoni.library.constant.CommonConstants;
 import com.naskoni.library.dao.LendDao;
 import com.naskoni.library.entity.Lend;
 
@@ -29,7 +30,7 @@ public class LendDaoImpl implements LendDao {
   public Lend findLend(long id) {
     Session session = sessionFactory.openSession();
     Criteria criteria = session.createCriteria(Lend.class);
-    criteria.add(Restrictions.like(CommonConstants.ID, id));
+    criteria.add(Restrictions.like(ID, id));
     List<Lend> lends = criteria.list();
     session.close();
 

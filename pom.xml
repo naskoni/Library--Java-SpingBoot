@@ -5,7 +5,7 @@
 
 	<groupId>com.naskoni</groupId>
 	<artifactId>library</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>Library</name>
@@ -32,11 +32,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.liquibase</groupId> -->
-		<!-- <artifactId>liquibase-core</artifactId> -->
-		<!-- </dependency> -->
+		</dependency>	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -57,8 +53,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
-			<version>4.2.2.RELEASE</version>
-		</dependency>
+			</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
@@ -95,6 +90,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>

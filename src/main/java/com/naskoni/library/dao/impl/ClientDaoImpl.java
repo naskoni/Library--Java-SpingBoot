@@ -1,5 +1,7 @@
 package com.naskoni.library.dao.impl;
 
+import static com.naskoni.library.constant.CommonConstants.ID;
+
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.naskoni.library.constant.CommonConstants;
 import com.naskoni.library.dao.ClientDao;
 import com.naskoni.library.entity.Client;
 
@@ -40,7 +41,7 @@ public class ClientDaoImpl implements ClientDao {
   public Client findClient(long id) {
     Session session = sessionFactory.openSession();
     Criteria criteria = session.createCriteria(Client.class);
-    criteria.add(Restrictions.like(CommonConstants.ID, id));
+    criteria.add(Restrictions.like(ID, id));
     List<Client> clients = criteria.list();
     session.close();
 
@@ -93,7 +94,7 @@ public class ClientDaoImpl implements ClientDao {
   public void deleteClient(Long id) {
     Session session = sessionFactory.openSession();
     Criteria criteria = session.createCriteria(Client.class);
-    criteria.add(Restrictions.eq(CommonConstants.ID, id)).uniqueResult();
+    criteria.add(Restrictions.eq(ID, id)).uniqueResult();
     List<Client> row = criteria.list();
     session.delete(row.get(0));
     session.flush();

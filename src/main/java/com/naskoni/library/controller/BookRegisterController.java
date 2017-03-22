@@ -1,5 +1,19 @@
 package com.naskoni.library.controller;
 
+import static com.naskoni.library.constant.BookConstants.BOOKS;
+import static com.naskoni.library.constant.BookConstants.BOOK_REGISTER;
+import static com.naskoni.library.constant.BookConstants.URL_ADD_BOOK;
+import static com.naskoni.library.constant.BookConstants.URL_BOOK_REGISTER;
+import static com.naskoni.library.constant.BookConstants.URL_DELETE_BOOK;
+import static com.naskoni.library.constant.BookConstants.URL_EDIT_BOOK;
+import static com.naskoni.library.constant.BookConstants.URL_SEARCH_BOOK;
+import static com.naskoni.library.constant.CommonConstants.ID;
+import static com.naskoni.library.constant.CommonConstants.REDIRECT;
+import static com.naskoni.library.constant.CommonConstants.URL_ADD;
+import static com.naskoni.library.constant.CommonConstants.URL_DELETE;
+import static com.naskoni.library.constant.CommonConstants.URL_EDIT;
+import static com.naskoni.library.constant.CommonConstants.URL_SEARCH;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -13,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.naskoni.library.constant.BookConstants;
-import com.naskoni.library.constant.CommonConstants;
 import com.naskoni.library.service.BookService;
 import com.naskoni.library.util.ErrorUtils;
 import com.naskoni.library.util.UserUtils;
@@ -27,33 +39,33 @@ public final class BookRegisterController {
   @Autowired
   private BookService bookService;
 
-  @RequestMapping(value = BookConstants.URL_BOOK_REGISTER, method = RequestMethod.GET)
+  @RequestMapping(value = URL_BOOK_REGISTER, method = RequestMethod.GET)
   public String loadBookRegister(Model model) {
     UserUtils.addUserToModel(model);
-    model.addAttribute(BookConstants.BOOKS, bookService.findBooks());
-    model.addAttribute(CommonConstants.URL_EDIT, BookConstants.URL_EDIT_BOOK);
-    model.addAttribute(CommonConstants.URL_ADD, BookConstants.URL_ADD_BOOK);
-    model.addAttribute(CommonConstants.URL_DELETE, BookConstants.URL_DELETE_BOOK);
-    model.addAttribute(CommonConstants.URL_SEARCH, BookConstants.URL_SEARCH_BOOK);
+    model.addAttribute(BOOKS, bookService.findBooks());
+    model.addAttribute(URL_EDIT, URL_EDIT_BOOK);
+    model.addAttribute(URL_ADD, URL_ADD_BOOK);
+    model.addAttribute(URL_DELETE, URL_DELETE_BOOK);
+    model.addAttribute(URL_SEARCH, URL_SEARCH_BOOK);
 
-    return BookConstants.BOOK_REGISTER;
+    return BOOK_REGISTER;
   }
 
-  @RequestMapping(value = BookConstants.URL_DELETE_BOOK, method = RequestMethod.GET)
+  @RequestMapping(value = URL_DELETE_BOOK, method = RequestMethod.GET)
   public String deleteBook(HttpServletRequest request) {
-    Long id = Long.parseLong(request.getParameter(CommonConstants.ID));
+    Long id = Long.parseLong(request.getParameter(ID));
     bookService.deleteBook(id);
 
-    return CommonConstants.REDIRECT + BookConstants.BOOK_REGISTER;
+    return REDIRECT + BOOK_REGISTER;
   }
 
-  @RequestMapping(value = BookConstants.URL_SEARCH_BOOK, method = RequestMethod.POST)
+  @RequestMapping(value = URL_SEARCH_BOOK, method = RequestMethod.POST)
   public String searchBook(HttpServletRequest request, RedirectAttributes redir) {
     String searchParam = request.getParameter("searchParam");
     String searchedWord = request.getParameter("searchedWord");
     redir.addFlashAttribute("searchedBooks", bookService.findBooks(searchedWord, searchParam));
 
-    return CommonConstants.REDIRECT + BookConstants.BOOK_REGISTER;
+    return REDIRECT + BOOK_REGISTER;
   }
 
   @ExceptionHandler(Exception.class)

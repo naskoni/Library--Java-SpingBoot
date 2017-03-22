@@ -1,11 +1,13 @@
 package com.naskoni.library.service.impl;
 
+import static com.naskoni.library.constant.CommonConstants.ASTERISK;
+import static com.naskoni.library.constant.CommonConstants.YEAR;
+
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.naskoni.library.constant.CommonConstants;
 import com.naskoni.library.dao.BookDao;
 import com.naskoni.library.entity.Book;
 import com.naskoni.library.service.BookService;
@@ -49,11 +51,11 @@ public final class BookServiceImpl implements BookService {
 
   @Override
   public Set<Book> findBooks(String searchedWord, String searchParam) {
-    if (searchedWord.isEmpty() || CommonConstants.ASTERISK.equals(searchedWord)) {
+    if (searchedWord.isEmpty() || ASTERISK.equals(searchedWord)) {
       return bookDao.findBooks();
     }
 
-    if (CommonConstants.YEAR.equals(searchParam) && ParseUtils.tryParseNumber(searchedWord)) {
+    if (YEAR.equals(searchParam) && ParseUtils.tryParseNumber(searchedWord)) {
       int searchedNumber = Integer.parseInt(searchedWord);
       return bookDao.findBooks(searchedNumber, searchParam);
     }

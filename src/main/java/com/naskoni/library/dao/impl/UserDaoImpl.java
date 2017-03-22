@@ -1,5 +1,7 @@
 package com.naskoni.library.dao.impl;
 
+import static com.naskoni.library.constant.CommonConstants.ID;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.naskoni.library.constant.CommonConstants;
 import com.naskoni.library.dao.UserDao;
 import com.naskoni.library.entity.LibraryUser;
 
@@ -39,7 +40,7 @@ public class UserDaoImpl implements UserDao {
   public LibraryUser findUser(Long id) {
     Session session = sessionFactory.openSession();
     Criteria criteria = session.createCriteria(LibraryUser.class);
-    criteria.add(Restrictions.like(CommonConstants.ID, id));
+    criteria.add(Restrictions.like(ID, id));
     List<LibraryUser> users = criteria.list();
     session.close();
 

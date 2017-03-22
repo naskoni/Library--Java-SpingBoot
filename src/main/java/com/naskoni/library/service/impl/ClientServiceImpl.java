@@ -1,5 +1,8 @@
 package com.naskoni.library.service.impl;
 
+import static com.naskoni.library.constant.CommonConstants.ASTERISK;
+import static com.naskoni.library.constant.CommonConstants.BIRTHDATE;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Set;
@@ -7,7 +10,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.naskoni.library.constant.CommonConstants;
 import com.naskoni.library.dao.ClientDao;
 import com.naskoni.library.dao.UserDao;
 import com.naskoni.library.entity.Client;
@@ -42,11 +44,11 @@ public final class ClientServiceImpl implements ClientService {
 
   @Override
   public Set<Client> findClients(String searchedWord, String searchParam) {
-    if (searchedWord.isEmpty() || CommonConstants.ASTERISK.equals(searchedWord)) {
+    if (searchedWord.isEmpty() || ASTERISK.equals(searchedWord)) {
       return clientDao.findClients();
     }
 
-    if (CommonConstants.BIRTHDATE.equals(searchParam) && ParseUtils.tryParseDate(searchedWord)) {
+    if (BIRTHDATE.equals(searchParam) && ParseUtils.tryParseDate(searchedWord)) {
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
       try {
         java.util.Date parsed = sdf.parse(searchedWord);

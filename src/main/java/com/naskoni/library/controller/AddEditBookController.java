@@ -1,5 +1,16 @@
 package com.naskoni.library.controller;
 
+import static com.naskoni.library.constant.BookConstants.BOOK_REGISTER;
+import static com.naskoni.library.constant.BookConstants.URL_ADD_BOOK;
+import static com.naskoni.library.constant.BookConstants.URL_ADD_BOOK_POST;
+import static com.naskoni.library.constant.BookConstants.URL_BOOK_REGISTER;
+import static com.naskoni.library.constant.BookConstants.URL_EDIT_BOOK;
+import static com.naskoni.library.constant.BookConstants.URL_EDIT_BOOK_POST;
+import static com.naskoni.library.constant.CommonConstants.ID;
+import static com.naskoni.library.constant.CommonConstants.REDIRECT;
+import static com.naskoni.library.constant.CommonConstants.URL_POST;
+import static com.naskoni.library.constant.CommonConstants.URL_REGISTER;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -13,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.naskoni.library.constant.BookConstants;
-import com.naskoni.library.constant.CommonConstants;
 import com.naskoni.library.entity.Book;
 import com.naskoni.library.service.BookService;
 import com.naskoni.library.util.ErrorUtils;
@@ -28,40 +37,40 @@ public final class AddEditBookController {
   @Autowired
   private BookService bookService;
 
-  @RequestMapping(value = BookConstants.URL_ADD_BOOK, method = RequestMethod.GET)
+  @RequestMapping(value = URL_ADD_BOOK, method = RequestMethod.GET)
   public String addBook(Model model) {
 
     UserUtils.addUserToModel(model);
-    model.addAttribute(CommonConstants.URL_REGISTER, BookConstants.URL_BOOK_REGISTER);
-    model.addAttribute(CommonConstants.URL_POST, BookConstants.URL_ADD_BOOK_POST);
+    model.addAttribute(URL_REGISTER, URL_BOOK_REGISTER);
+    model.addAttribute(URL_POST, URL_ADD_BOOK_POST);
 
     return "addEditBook";
   }
 
-  @RequestMapping(value = BookConstants.URL_ADD_BOOK_POST, method = RequestMethod.POST)
+  @RequestMapping(value = URL_ADD_BOOK_POST, method = RequestMethod.POST)
   public String addBookPost(@ModelAttribute("book") Book book) {
     bookService.addBook(book);
 
-    return CommonConstants.REDIRECT + BookConstants.BOOK_REGISTER;
+    return REDIRECT + BOOK_REGISTER;
   }
 
-  @RequestMapping(value = BookConstants.URL_EDIT_BOOK, method = RequestMethod.GET)
+  @RequestMapping(value = URL_EDIT_BOOK, method = RequestMethod.GET)
   public String editBook(Model model, HttpServletRequest request) {
     UserUtils.addUserToModel(model);
-    Long id = Long.parseLong(request.getParameter(CommonConstants.ID));
+    Long id = Long.parseLong(request.getParameter(ID));
     model.addAttribute("book", bookService.findBook(id));
-    model.addAttribute(CommonConstants.URL_REGISTER, BookConstants.URL_BOOK_REGISTER);
-    model.addAttribute(CommonConstants.URL_POST, BookConstants.URL_EDIT_BOOK_POST);
-    model.addAttribute(CommonConstants.ID, id);
+    model.addAttribute(URL_REGISTER, URL_BOOK_REGISTER);
+    model.addAttribute(URL_POST, URL_EDIT_BOOK_POST);
+    model.addAttribute(ID, id);
 
     return "addEditBook";
   }
 
-  @RequestMapping(value = BookConstants.URL_EDIT_BOOK_POST, method = RequestMethod.POST)
+  @RequestMapping(value = URL_EDIT_BOOK_POST, method = RequestMethod.POST)
   public String editBookPost(@ModelAttribute("book") Book book) {
     bookService.updateBook(book);
 
-    return CommonConstants.REDIRECT + BookConstants.BOOK_REGISTER;
+    return REDIRECT + BOOK_REGISTER;
   }
 
   @ExceptionHandler(Exception.class)

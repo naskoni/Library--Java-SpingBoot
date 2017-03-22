@@ -1,5 +1,7 @@
 package com.naskoni.library.dao.impl;
 
+import static com.naskoni.library.constant.CommonConstants.ID;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.naskoni.library.constant.CommonConstants;
 import com.naskoni.library.dao.BookDao;
 import com.naskoni.library.entity.Book;
 
@@ -39,7 +40,7 @@ public class BookDaoImpl implements BookDao {
   public Book findBook(long id) {
     Session session = sessionFactory.openSession();
     Criteria criteria = session.createCriteria(Book.class);
-    criteria.add(Restrictions.like(CommonConstants.ID, id));
+    criteria.add(Restrictions.like(ID, id));
     List<Book> books = criteria.list();
     session.close();
 
@@ -92,7 +93,7 @@ public class BookDaoImpl implements BookDao {
   public void deleteBook(Long id) {
     Session session = sessionFactory.openSession();
     Criteria criteria = session.createCriteria(Book.class);
-    criteria.add(Restrictions.eq(CommonConstants.ID, id)).uniqueResult();
+    criteria.add(Restrictions.eq(ID, id)).uniqueResult();
     List<Book> row = criteria.list();
     session.delete(row.get(0));
     session.flush();

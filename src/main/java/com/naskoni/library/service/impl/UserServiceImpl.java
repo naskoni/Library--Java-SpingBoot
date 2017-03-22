@@ -1,13 +1,14 @@
 package com.naskoni.library.service.impl;
 
+import static com.naskoni.library.constant.CommonConstants.ASTERISK;
+import static com.naskoni.library.constant.UserConstants.ROLE;
+
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
-import com.naskoni.library.constant.CommonConstants;
-import com.naskoni.library.constant.UserConstants;
 import com.naskoni.library.dao.UserDao;
 import com.naskoni.library.entity.LibraryUser;
 import com.naskoni.library.service.UserService;
@@ -57,11 +58,11 @@ public final class UserServiceImpl implements UserService {
 
   @Override
   public Set<LibraryUser> findUsers(String searchedWord, String searchParam) {
-    if (searchedWord.isEmpty() || CommonConstants.ASTERISK.equals(searchedWord)) {
+    if (searchedWord.isEmpty() || ASTERISK.equals(searchedWord)) {
       return userDao.findUsers();
     }
 
-    if (UserConstants.ROLE.equals(searchParam)) {
+    if (ROLE.equals(searchParam)) {
       return userDao.findUsers(searchedWord.toUpperCase(), searchParam);
     }
 

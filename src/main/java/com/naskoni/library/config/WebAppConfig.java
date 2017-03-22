@@ -66,6 +66,19 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    PasswordEncoder sha256PasswordEncoder = new PasswordEncoder() {
+      @Override
+      public String encode(CharSequence rawPassword) {
+        return Hashing.sha256().hashString(rawPassword, Charsets.UTF_8).toString();
+      }
+
+      @Override
+      public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        return encodedPassword
+            .equals(Hashing.sha256().hashString(rawPassword, Charsets.UTF_8).toString());
+      }
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       // @formatter:off
@@ -87,19 +100,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
           .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
       // @formatter:on
     }
-
-    PasswordEncoder sha256PasswordEncoder = new PasswordEncoder() {
-      @Override
-      public String encode(CharSequence rawPassword) {
-        return Hashing.sha256().hashString(rawPassword, Charsets.UTF_8).toString();
-      }
-
-      @Override
-      public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return encodedPassword
-            .equals(Hashing.sha256().hashString(rawPassword, Charsets.UTF_8).toString());
-      }
-    };
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

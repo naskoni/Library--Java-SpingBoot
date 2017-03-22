@@ -1,5 +1,16 @@
 package com.naskoni.library.controller;
 
+import static com.naskoni.library.constant.CommonConstants.REDIRECT;
+import static com.naskoni.library.constant.CommonConstants.URL_POST;
+import static com.naskoni.library.constant.CommonConstants.URL_REGISTER;
+import static com.naskoni.library.constant.UserConstants.URL_ADD_USER;
+import static com.naskoni.library.constant.UserConstants.URL_ADD_USER_POST;
+import static com.naskoni.library.constant.UserConstants.URL_EDIT_USER;
+import static com.naskoni.library.constant.UserConstants.URL_EDIT_USER_POST;
+import static com.naskoni.library.constant.UserConstants.URL_USER_REGISTER;
+import static com.naskoni.library.constant.UserConstants.USER;
+import static com.naskoni.library.constant.UserConstants.USER_REGISTER;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -15,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.naskoni.library.constant.CommonConstants;
-import com.naskoni.library.constant.UserConstants;
 import com.naskoni.library.entity.LibraryUser;
 import com.naskoni.library.service.UserService;
 import com.naskoni.library.util.ErrorUtils;
@@ -25,51 +34,51 @@ import com.naskoni.library.util.UserUtils;
 @Controller
 public class AddEditUserController {
 
-	private static final Logger logger = LoggerFactory.getLogger(AddEditUserController.class);
+  private static final Logger logger = LoggerFactory.getLogger(AddEditUserController.class);
 
-	@Autowired
-	private UserService userService;
+  @Autowired
+  private UserService userService;
 
-	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = UserConstants.URL_ADD_USER, method = RequestMethod.GET)
-	public String addUser(Model model) {
+  @Secured("ROLE_ADMIN")
+  @RequestMapping(value = URL_ADD_USER, method = RequestMethod.GET)
+  public String addUser(Model model) {
 
-		UserUtils.addUserToModel(model);
-		model.addAttribute(CommonConstants.URL_REGISTER, UserConstants.URL_USER_REGISTER);
-		model.addAttribute(CommonConstants.URL_POST, UserConstants.URL_ADD_USER_POST);
+    UserUtils.addUserToModel(model);
+    model.addAttribute(URL_REGISTER, URL_USER_REGISTER);
+    model.addAttribute(URL_POST, URL_ADD_USER_POST);
 
-		return "addUser";
-	}
+    return "addUser";
+  }
 
-	@Secured("ROLE_ADMIN")
-	@RequestMapping(value = UserConstants.URL_ADD_USER_POST, method = RequestMethod.POST)
-	public String addUserPost(@ModelAttribute("user") LibraryUser user) {
-		userService.addUser(user);
+  @Secured("ROLE_ADMIN")
+  @RequestMapping(value = URL_ADD_USER_POST, method = RequestMethod.POST)
+  public String addUserPost(@ModelAttribute("user") LibraryUser user) {
+    userService.addUser(user);
 
-		return CommonConstants.REDIRECT + UserConstants.USER_REGISTER;
-	}
+    return REDIRECT + USER_REGISTER;
+  }
 
-	@RequestMapping(value = UserConstants.URL_EDIT_USER, method = RequestMethod.GET)
-	public String editUser(Model model) {
-		UserDetails loggedUser = UserUtils.getUser();
-		LibraryUser user = userService.findUser(loggedUser.getUsername());
-		model.addAttribute(UserConstants.USER, user);
-		model.addAttribute(CommonConstants.URL_POST, UserConstants.URL_EDIT_USER_POST);
+  @RequestMapping(value = URL_EDIT_USER, method = RequestMethod.GET)
+  public String editUser(Model model) {
+    UserDetails loggedUser = UserUtils.getUser();
+    LibraryUser user = userService.findUser(loggedUser.getUsername());
+    model.addAttribute(USER, user);
+    model.addAttribute(URL_POST, URL_EDIT_USER_POST);
 
-		return "editUser";
-	}
+    return "editUser";
+  }
 
-	@RequestMapping(value = UserConstants.URL_EDIT_USER_POST, method = RequestMethod.POST)
-	public String editUserPost(@ModelAttribute("user") LibraryUser user) {
-		userService.updateUser(user);
+  @RequestMapping(value = URL_EDIT_USER_POST, method = RequestMethod.POST)
+  public String editUserPost(@ModelAttribute("user") LibraryUser user) {
+    userService.updateUser(user);
 
-		return "home";
-	}
+    return "home";
+  }
 
-	@ExceptionHandler(Exception.class)
-	public ModelAndView handleError(HttpServletRequest request, Exception exception) {
-		logger.error("Request: " + request.getRequestURL() + " raised " + exception);
+  @ExceptionHandler(Exception.class)
+  public ModelAndView handleError(HttpServletRequest request, Exception exception) {
+    logger.error("Request: " + request.getRequestURL() + " raised " + exception);
 
-		return ErrorUtils.prepareErrorModelAndView();
-	}
+    return ErrorUtils.prepareErrorModelAndView();
+  }
 }
