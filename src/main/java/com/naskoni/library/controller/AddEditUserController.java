@@ -11,8 +11,6 @@ import static com.naskoni.library.constant.UserConstants.URL_USER_REGISTER;
 import static com.naskoni.library.constant.UserConstants.USER;
 import static com.naskoni.library.constant.UserConstants.USER_REGISTER;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +18,12 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.naskoni.library.entity.LibraryUser;
 import com.naskoni.library.service.UserService;
-import com.naskoni.library.util.ErrorUtils;
 import com.naskoni.library.util.UserUtils;
 
 @Controller
@@ -75,10 +70,4 @@ public class AddEditUserController {
     return "home";
   }
 
-  @ExceptionHandler(Exception.class)
-  public ModelAndView handleError(HttpServletRequest request, Exception exception) {
-    logger.error("Request: " + request.getRequestURL() + " raised " + exception);
-
-    return ErrorUtils.prepareErrorModelAndView();
-  }
 }

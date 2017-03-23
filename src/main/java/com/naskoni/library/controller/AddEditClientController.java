@@ -18,15 +18,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.naskoni.library.entity.Client;
 import com.naskoni.library.service.ClientService;
-import com.naskoni.library.util.ErrorUtils;
 import com.naskoni.library.util.UserUtils;
 
 @Controller
@@ -74,10 +71,4 @@ public final class AddEditClientController {
     return REDIRECT + CLIENT_REGISTER;
   }
 
-  @ExceptionHandler(Exception.class)
-  public ModelAndView handleError(HttpServletRequest request, Exception exception) {
-    logger.error("Request: " + request.getRequestURL() + " raised " + exception);
-
-    return ErrorUtils.prepareErrorModelAndView();
-  }
 }

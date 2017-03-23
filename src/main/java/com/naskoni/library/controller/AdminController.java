@@ -16,14 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.naskoni.library.service.UserService;
-import com.naskoni.library.util.ErrorUtils;
 import com.naskoni.library.util.UserUtils;
 
 @Controller
@@ -64,10 +61,4 @@ public class AdminController {
     return REDIRECT + USER_REGISTER;
   }
 
-  @ExceptionHandler(Exception.class)
-  public ModelAndView handleError(HttpServletRequest request, Exception exception) {
-    logger.error("Request: " + request.getRequestURL() + " raised " + exception);
-
-    return ErrorUtils.prepareErrorModelAndView();
-  }
 }
