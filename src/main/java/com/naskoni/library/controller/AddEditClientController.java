@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.naskoni.library.entity.Client;
 import com.naskoni.library.service.ClientService;
@@ -34,7 +34,7 @@ public final class AddEditClientController {
   @Autowired
   private ClientService clientService;
 
-  @RequestMapping(value = URL_ADD_CLIENT, method = RequestMethod.GET)
+  @GetMapping(value = URL_ADD_CLIENT)
   public String addClient(Model model) {
     UserUtils.addUserToModel(model);
     model.addAttribute(URL_REGISTER, URL_CLIENT_REGISTER);
@@ -43,14 +43,14 @@ public final class AddEditClientController {
     return "addEditClient";
   }
 
-  @RequestMapping(value = URL_ADD_CLIENT_POST, method = RequestMethod.POST)
+  @PostMapping(value = URL_ADD_CLIENT_POST)
   public String addClientPost(@ModelAttribute("client") Client client) {
     clientService.addClient(client);
 
     return REDIRECT + CLIENT_REGISTER;
   }
 
-  @RequestMapping(value = URL_EDIT_CLIENT, method = RequestMethod.GET)
+  @GetMapping(value = URL_EDIT_CLIENT)
   public String editClient(Model model, HttpServletRequest request) {
 
     Long id = Long.parseLong(request.getParameter(ID));
@@ -64,7 +64,7 @@ public final class AddEditClientController {
     return "addEditClient";
   }
 
-  @RequestMapping(value = URL_EDIT_CLIENT_POST, method = RequestMethod.POST)
+  @PostMapping(value = URL_EDIT_CLIENT_POST)
   public String editClientPost(@ModelAttribute("client") Client client) {
     clientService.update(client);
 

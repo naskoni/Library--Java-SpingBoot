@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.naskoni.library.entity.Book;
 import com.naskoni.library.service.BookService;
@@ -34,9 +34,8 @@ public final class AddEditBookController {
   @Autowired
   private BookService bookService;
 
-  @RequestMapping(value = URL_ADD_BOOK, method = RequestMethod.GET)
+  @GetMapping(value = URL_ADD_BOOK)
   public String addBook(Model model) {
-
     UserUtils.addUserToModel(model);
     model.addAttribute(URL_REGISTER, URL_BOOK_REGISTER);
     model.addAttribute(URL_POST, URL_ADD_BOOK_POST);
@@ -44,14 +43,14 @@ public final class AddEditBookController {
     return "addEditBook";
   }
 
-  @RequestMapping(value = URL_ADD_BOOK_POST, method = RequestMethod.POST)
+  @PostMapping(value = URL_ADD_BOOK_POST)
   public String addBookPost(@ModelAttribute("book") Book book) {
     bookService.addBook(book);
 
     return REDIRECT + BOOK_REGISTER;
   }
 
-  @RequestMapping(value = URL_EDIT_BOOK, method = RequestMethod.GET)
+  @GetMapping(value = URL_EDIT_BOOK)
   public String editBook(Model model, HttpServletRequest request) {
     UserUtils.addUserToModel(model);
     Long id = Long.parseLong(request.getParameter(ID));
@@ -63,7 +62,7 @@ public final class AddEditBookController {
     return "addEditBook";
   }
 
-  @RequestMapping(value = URL_EDIT_BOOK_POST, method = RequestMethod.POST)
+  @PostMapping(value = URL_EDIT_BOOK_POST)
   public String editBookPost(@ModelAttribute("book") Book book) {
     bookService.updateBook(book);
 

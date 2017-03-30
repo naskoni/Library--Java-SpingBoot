@@ -21,8 +21,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.naskoni.library.service.BookService;
@@ -36,7 +36,7 @@ public final class BookRegisterController {
   @Autowired
   private BookService bookService;
 
-  @RequestMapping(value = URL_BOOK_REGISTER, method = RequestMethod.GET)
+  @GetMapping(value = URL_BOOK_REGISTER)
   public String loadBookRegister(Model model) {
     UserUtils.addUserToModel(model);
     model.addAttribute(BOOKS, bookService.findBooks());
@@ -48,7 +48,7 @@ public final class BookRegisterController {
     return BOOK_REGISTER;
   }
 
-  @RequestMapping(value = URL_DELETE_BOOK, method = RequestMethod.GET)
+  @GetMapping(value = URL_DELETE_BOOK)
   public String deleteBook(HttpServletRequest request) {
     Long id = Long.parseLong(request.getParameter(ID));
     bookService.deleteBook(id);
@@ -56,7 +56,7 @@ public final class BookRegisterController {
     return REDIRECT + BOOK_REGISTER;
   }
 
-  @RequestMapping(value = URL_SEARCH_BOOK, method = RequestMethod.POST)
+  @PostMapping(value = URL_SEARCH_BOOK)
   public String searchBook(HttpServletRequest request, RedirectAttributes redir) {
     String searchParam = request.getParameter("searchParam");
     String searchedWord = request.getParameter("searchedWord");

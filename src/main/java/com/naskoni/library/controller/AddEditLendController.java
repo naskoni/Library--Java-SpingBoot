@@ -22,9 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.naskoni.library.entity.Book;
 import com.naskoni.library.entity.Client;
@@ -48,7 +48,7 @@ public class AddEditLendController {
   @Autowired
   private ClientService clientService;
 
-  @RequestMapping(value = URL_ADD_LEND, method = RequestMethod.GET)
+  @GetMapping(value = URL_ADD_LEND)
   public String addLend(Model model) {
 
     UserUtils.addUserToModel(model);
@@ -60,7 +60,7 @@ public class AddEditLendController {
     return "addEditLend";
   }
 
-  @RequestMapping(value = URL_ADD_LEND_POST, method = RequestMethod.POST)
+  @PostMapping(value = URL_ADD_LEND_POST)
   public String addLendPost(@ModelAttribute("lend") Lend lend, HttpServletRequest request) {
     Long bookId = Long.parseLong(request.getParameter(BOOK_ID));
     Book book = bookService.findBook(bookId);
@@ -74,7 +74,7 @@ public class AddEditLendController {
   }
 
   @Secured("ROLE_ADMIN")
-  @RequestMapping(value = URL_EDIT_LEND, method = RequestMethod.GET)
+  @GetMapping(value = URL_EDIT_LEND)
   public String editLend(Model model, HttpServletRequest request) {
     UserUtils.addUserToModel(model);
     Long id = Long.parseLong(request.getParameter(ID));
@@ -89,7 +89,7 @@ public class AddEditLendController {
   }
 
   @Secured("ROLE_ADMIN")
-  @RequestMapping(value = URL_EDIT_LEND_POST, method = RequestMethod.POST)
+  @PostMapping(value = URL_EDIT_LEND_POST)
   public String editLendPost(@ModelAttribute("lend") Lend lend, HttpServletRequest request) {
     Long bookId = Long.parseLong(request.getParameter(BOOK_ID));
     Book book = bookService.findBook(bookId);

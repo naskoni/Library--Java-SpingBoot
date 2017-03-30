@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.naskoni.library.service.UserService;
@@ -32,7 +32,7 @@ public class AdminController {
   private UserService userService;
 
   @Secured("ROLE_ADMIN")
-  @RequestMapping(value = USER_REGISTER, method = RequestMethod.GET)
+  @GetMapping(value = USER_REGISTER)
   public String loadAdminPage(Model model) {
     UserUtils.addUserToModel(model);
     model.addAttribute("users", userService.findUsers());
@@ -44,7 +44,7 @@ public class AdminController {
   }
 
   @Secured("ROLE_ADMIN")
-  @RequestMapping(value = URL_DEACTIVATE_USER, method = RequestMethod.GET)
+  @GetMapping(value = URL_DEACTIVATE_USER)
   public String deleteBook(HttpServletRequest request) {
     Long id = Long.parseLong(request.getParameter(ID));
     userService.deactivateUser(id);
@@ -52,7 +52,7 @@ public class AdminController {
     return REDIRECT + USER_REGISTER;
   }
 
-  @RequestMapping(value = URL_SEARCH_USER, method = RequestMethod.POST)
+  @PostMapping(value = URL_SEARCH_USER)
   public String searchBook(HttpServletRequest request, RedirectAttributes redir) {
     String searchParam = request.getParameter("searchParam");
     String searchedWord = request.getParameter("searchedWord");

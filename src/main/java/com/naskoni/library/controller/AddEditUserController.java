@@ -18,9 +18,9 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.naskoni.library.entity.LibraryUser;
 import com.naskoni.library.service.UserService;
@@ -35,9 +35,8 @@ public class AddEditUserController {
   private UserService userService;
 
   @Secured("ROLE_ADMIN")
-  @RequestMapping(value = URL_ADD_USER, method = RequestMethod.GET)
+  @GetMapping(value = URL_ADD_USER)
   public String addUser(Model model) {
-
     UserUtils.addUserToModel(model);
     model.addAttribute(URL_REGISTER, URL_USER_REGISTER);
     model.addAttribute(URL_POST, URL_ADD_USER_POST);
@@ -46,14 +45,14 @@ public class AddEditUserController {
   }
 
   @Secured("ROLE_ADMIN")
-  @RequestMapping(value = URL_ADD_USER_POST, method = RequestMethod.POST)
+  @PostMapping(value = URL_ADD_USER_POST)
   public String addUserPost(@ModelAttribute("user") LibraryUser user) {
     userService.addUser(user);
 
     return REDIRECT + USER_REGISTER;
   }
 
-  @RequestMapping(value = URL_EDIT_USER, method = RequestMethod.GET)
+  @GetMapping(value = URL_EDIT_USER)
   public String editUser(Model model) {
     UserDetails loggedUser = UserUtils.getUser();
     LibraryUser user = userService.findUser(loggedUser.getUsername());
@@ -63,7 +62,7 @@ public class AddEditUserController {
     return "editUser";
   }
 
-  @RequestMapping(value = URL_EDIT_USER_POST, method = RequestMethod.POST)
+  @PostMapping(value = URL_EDIT_USER_POST)
   public String editUserPost(@ModelAttribute("user") LibraryUser user) {
     userService.updateUser(user);
 
